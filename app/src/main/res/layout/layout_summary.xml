@@ -1,0 +1,90 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TableRow
+                android:layout_height="wrap_content"
+                android:layout_width="fill_parent">
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:id="@+id/txt_category_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/default1"
+                    android:textSize="13dp"
+                    app:typeface="roboto_light"
+                    android:layout_weight="1" />
+
+
+
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:id="@+id/txt_total_unit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/zero"
+                    android:textSize="13dp"
+                    android:layout_weight="1"
+                    android:gravity="right"/>
+
+
+
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:id="@+id/txt_rate_unit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/rate"
+                    android:textSize="13dp"
+                    android:visibility="invisible"
+                    android:layout_weight="1"
+                    android:gravity="right"/>
+
+
+
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:id="@+id/txt_total_value"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/zero"
+                    android:textSize="13dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    />
+
+            </TableRow>
+</TableLayout>
+
+
+
+
+
+
+
+
+
+
+    <LinearLayout
+        android:id="@+id/layout_subsummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+</LinearLayout>

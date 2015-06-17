@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:id="@+id/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/company_name"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <EditText
+                    android:id="@+id/edt_company_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/financial_year"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/layout_financial_year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#000000">
+
+                    <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                        android:id="@+id/txt_financial_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                    />
+                </LinearLayout>
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/address"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edt_address1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <EditText
+                    android:id="@+id/edt_address2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/email_id"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <EditText
+                    android:id="@+id/edt_emailid"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/phone_number"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <EditText
+                    android:id="@+id/edt_phone_number"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/tax_reg_1"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <EditText
+                    android:id="@+id/edt_tax_reg1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.devspark.robototextview.widget.RobotoTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/tax_reg_2"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <EditText
+                    android:id="@+id/edt_tax_reg2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/company_logo"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <LinearLayout
+                    android:id="@+id/layout_company_logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#000000"
+                    android:orientation="vertical">
+
+
+                </LinearLayout>
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/company_signature"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <LinearLayout
+                    android:id="@+id/layout_company_signature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#000000"
+                    android:orientation="vertical">
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

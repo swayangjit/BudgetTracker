@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/layout_above"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimaryDark"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:id="@+id/layout_add_category"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_white" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_show_calculator"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_calculator" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_above"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:id="@+id/textTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/item_name"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <EditText
+                    android:id="@+id/edt_item_name"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/item_description"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/edt_item_description"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:text="@string/unit_measurment"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <Spinner
+                    android:id="@+id/spinner_unit_masurment"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/Category"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <Spinner
+                    android:id="@+id/spinner_category"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/Subcategory"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <Spinner
+                    android:id="@+id/spinner_subcategory"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/item_date"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+                />
+
+                <LinearLayout
+                    android:id="@+id/layout_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#000000">
+
+                    <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                        android:id="@+id/txt_created_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:textColor="#ffffff"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+                    />
+                </LinearLayout>
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/item_quantity"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <EditText
+                    android:id="@+id/edt_quantity"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/item_cost"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerEditText
+                    android:id="@+id/edt_cost"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionNext"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/item_value"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+
+                <EditText
+                    android:id="@+id/edt_value"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:singleLine="true" />
+
+                <com.skytopper.budgettracker.customviews.BudgetTrackerTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/item_image"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    />
+                </LinearLayout>
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
