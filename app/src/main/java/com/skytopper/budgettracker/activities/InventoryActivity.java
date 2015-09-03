@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,7 +20,7 @@ import com.skytopper.budgettracker.fragments.InventoryItems;
 import com.skytopper.budgettracker.fragments.NavigationDrawerFragment;
 import java.util.ArrayList;
 
-public class InventoryActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
+public class InventoryActivity extends AppCompatActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks{
     private Toolbar mToolbar;
     private static Fragment mFragment;
     public  static ArrayList<Fragment> fragments = new ArrayList<Fragment>();
@@ -38,6 +39,7 @@ public class InventoryActivity extends ActionBarActivity implements NavigationDr
         mFragmentManager= getSupportFragmentManager();
         me = this;
         replaceFragmentWithSlideAnimation(null, new InventoryItems(), true);
+        ((DrawerLayout) findViewById(R.id.drawer_layout)).closeDrawers();
 
     }
 
@@ -141,7 +143,7 @@ public void onNavigationDrawerItemSelected(int position,String name) {
             mFragmentManager.popBackStack();
         }
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
-        transaction.setCustomAnimations(R.animator.frag_enter, R.animator.frag_exit);
+//        transaction.setCustomAnimations(R.animator.frag_enter, R.animator.frag_exit);
         transaction.replace(R.id.container,toFragment, toFragment.getClass().getName());
         if(isToBeAddedToBackStack)
         {

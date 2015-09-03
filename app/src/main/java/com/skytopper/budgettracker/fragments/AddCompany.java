@@ -114,11 +114,13 @@ public class AddCompany extends Fragment  implements View.OnClickListener{
         mEdt_TaxRegistration1=(EditText)view.findViewById(R.id.edt_tax_reg1);
         mEdt_TaxRegistration2=(EditText)view.findViewById(R.id.edt_tax_reg2);
         mTxt_FinancialYear=(TextView)view.findViewById(R.id.txt_financial_year);
+        ((LinearLayout)view.findViewById(R.id.layout_financial_year)).setOnClickListener(this);
 
         Calendar c = Calendar.getInstance();
         year  = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
         day   = c.get(Calendar.DAY_OF_MONTH);
+        mDatePickerDialog=new DatePickerDialog(getActivity(), mDatePickerListener, year, month, day);
         mTxt_FinancialYear.setText(day+""+"-"+(month+1)+"-"+year);
         mDatabaseHelper = DatabaseSingleton.getInstance().getHelper();
         return view;
@@ -132,7 +134,9 @@ public class AddCompany extends Fragment  implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.layout_financial_year:
+                mDatePickerDialog.show();
+                break;
         }
     }
 

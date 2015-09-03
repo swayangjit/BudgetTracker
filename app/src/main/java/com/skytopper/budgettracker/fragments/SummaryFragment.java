@@ -5,28 +5,25 @@ import android.app.DatePickerDialog;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.Font;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import com.skytoper.budgettracker.R;
-import com.skytopper.budgettracker.activities.InventoryActivity;
 import com.skytopper.budgettracker.activities.SummaryActivity;
 import com.skytopper.budgettracker.database.DatabaseHelper;
 import com.skytopper.budgettracker.database.DatabaseSingleton;
@@ -36,6 +33,17 @@ import com.skytopper.budgettracker.model.Inventory;
 import com.skytopper.budgettracker.model.Subcategory;
 import com.skytopper.budgettracker.util.PreferenceUtil;
 
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.hssf.util.HSSFColor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -94,6 +102,8 @@ public class SummaryFragment extends Fragment implements View.OnClickListener{
                 mDatePickerDialog.show();
                 break;
             case R.id.layout_show_export:
+//                exportasPDF();
+                exportasExcel();
 //                AddItemsDialogFragment dFragment = new AddItemsDialogFragment();
 //                // Show DialogFragment
 //                dFragment.show(getFragmentManager(), "Dialog Fragment");
@@ -224,6 +234,275 @@ public class SummaryFragment extends Fragment implements View.OnClickListener{
                 }
             }
         }
+
+
+    }
+
+    private void exportasPDF(){
+
+        try {
+            Document document = new Document();
+            String companyName=PreferenceUtil.getPreference(getActivity(), "current_company_name", "");
+            PdfWriter.getInstance(document, new FileOutputStream(android.os.Environment.getExternalStorageDirectory() + java.io.File.separator + "BudgetTracker" + java.io.File.separator + companyName+ day + "" + "-" + (month + 1) + "-" + year+".pdf"));
+            document.open();
+            PdfPTable table = new PdfPTable(4);
+            System.out.println("Company Id" + PreferenceUtil.getPreference(getActivity(), "current_company_id", ""));
+            ArrayList<Category> categoryList=mDatabaseHelper.getAllCategories();
+//            PdfPCell cell = new PdfPCell(new Paragraph("header with colspan 3"));
+            Font catFont = new Font(Font.TIMES_ROMAN, 18, Font.BOLD);
+            Paragraph prPersinalInfo = new Paragraph();
+
+            prPersinalInfo.add(companyName+"\n");
+            prPersinalInfo.add(getResources().getString(R.string.closing_inventory) + " " + day + "" + "-" + (month + 1) + "-" + year+"\n");
+            prPersinalInfo.add(""+"\n");
+            prPersinalInfo.add(""+"\n");
+            document.add(prPersinalInfo);
+            table.addCell(getResources().getString(R.string.name));
+            table.addCell(getResources().getString(R.string.value));
+            table.addCell(getResources().getString(R.string.no_unit));
+            table.addCell(getResources().getString(R.string.rate));
+            table.addCell(getResources().getString(R.string.default1));
+            table.addCell("0.0");
+            table.addCell("");
+            table.addCell("0.0");
+
+
+            if(categoryList!=null){
+                for(int j=0;j<categoryList.size();j++){
+                    ArrayList<CategorySum> categorySumList=mDatabaseHelper.getCategory(PreferenceUtil.getPreference(getActivity(), "current_company_id", ""), categoryList.get(j).getCategoryName());
+                    System.out.println("Size"+categorySumList.size());
+                    if(categorySumList!=null){
+                        if(categorySumList.size()>0){
+                            for(int i=0;i<categorySumList.size();i++){
+                                CategorySum categorySum=categorySumList.get(i);
+                                Paragraph p1=new Paragraph(categorySum.getCategoryName().toUpperCase());
+                                p1.setFont(catFont);
+                                Paragraph p2=new Paragraph(String.valueOf(categorySum.getTotalNoofUnit()));
+                                p2.setFont(catFont);
+                                Paragraph p3=new Paragraph(String.valueOf(categorySum.getTotalValue()));
+                                p3.setFont(catFont);
+
+                                table.addCell(p1);
+                                table.addCell(p2);
+                                table.addCell("");
+                                table.addCell(p3);
+
+                                Category category=mDatabaseHelper.getCategory(categorySum.getCategoryName());
+                                ArrayList<Subcategory> subcategories=mDatabaseHelper.getSubCategories(String.valueOf(category.getId()));
+                                for(int k=0;k<subcategories.size();k++){
+                                    Subcategory subcategory=subcategories.get(k);
+                                    ArrayList<CategorySum> SubcategorySumList=mDatabaseHelper.getSubCategory(PreferenceUtil.getPreference(getActivity(), "current_company_id", ""), categoryList.get(j).getCategoryName(), subcategory.getSubcategoryName());
+                                    CategorySum subcategorySum=SubcategorySumList.get(i);
+                                    table.addCell(subcategorySum.getCategoryName().toUpperCase());
+                                    table.addCell(String.valueOf(subcategorySum.getTotalNoofUnit()));
+                                    table.addCell("");
+                                    table.addCell(String.valueOf(subcategorySum.getTotalValue()));
+                                    ArrayList<Inventory> inventoryList=mDatabaseHelper.getInventories(subcategory.getSubcategoryName(),mCurrentDateString);
+                                    if(inventoryList.size()==0){
+
+                                    }
+                                    for(int l=0;l<inventoryList.size(); l++) {
+                                        Inventory inventory=inventoryList.get(l);
+
+                                        table.addCell(inventory.getItemName());
+                                        table.addCell(String.valueOf(inventory.getQuantity())+" "+inventory.getUnitofMeasure());
+                                        table.addCell(String.valueOf(inventory.getCost()));
+                                        table.addCell(String.valueOf(inventory.getValue()));
+
+                                    }
+
+
+                                }
+
+
+                            }
+                        }
+                    }
+                }
+            }
+            document.add(table);
+            document.close();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+
+    }
+    private void exportasExcel(){
+
+        try {
+            String companyName=PreferenceUtil.getPreference(getActivity(), "current_company_name", "");
+            //New Workbook
+            HSSFWorkbook wb = new HSSFWorkbook();
+
+            Cell c = null;
+
+            //Cell style for header row
+            HSSFCellStyle cs = wb.createCellStyle();
+            cs.setFillForegroundColor(HSSFColor.LIME.index);
+            cs.setFillPattern(HSSFCellStyle.SOLID_FOREGROUND);
+
+            //New Sheet
+            Sheet sheet1 = null;
+            sheet1 = wb.createSheet(companyName+ day + "" + "-" + (month + 1) + "-" + year);
+
+            // Generate column headings
+            Row row = sheet1.createRow(0);
+            c = row.createCell(0);
+            c.setCellValue(getResources().getString(R.string.name));
+            c.setCellStyle(cs);
+
+            c = row.createCell(1);
+            c.setCellValue(getResources().getString(R.string.value));
+            c.setCellStyle(cs);
+
+            c = row.createCell(2);
+            c.setCellValue(getResources().getString(R.string.no_unit));
+            c.setCellStyle(cs);
+
+            c = row.createCell(3);
+            c.setCellValue(getResources().getString(R.string.rate));
+            c.setCellStyle(cs);
+
+            Row row1 = sheet1.createRow(1);
+            c = row1.createCell(0);
+            c.setCellValue(getResources().getString(R.string.default1));
+            c.setCellStyle(cs);
+
+            c = row1.createCell(1);
+            c.setCellValue("0.0");
+            c.setCellStyle(cs);
+
+            c = row1.createCell(2);
+            c.setCellValue("");
+            c.setCellStyle(cs);
+
+            c = row1.createCell(3);
+            c.setCellValue("0.0");
+            c.setCellStyle(cs);
+
+
+            int m=2;
+            ArrayList<Category> categoryList=mDatabaseHelper.getAllCategories();
+
+            if(categoryList!=null){
+                for(int j=0;j<categoryList.size();j++){
+                    ArrayList<CategorySum> categorySumList=mDatabaseHelper.getCategory(PreferenceUtil.getPreference(getActivity(), "current_company_id", ""), categoryList.get(j).getCategoryName());
+                    System.out.println("Size"+categorySumList.size());
+                    if(categorySumList!=null){
+                        if(categorySumList.size()>0){
+                            for(int i=0;i<categorySumList.size();i++){
+                                m++;
+                                CategorySum categorySum=categorySumList.get(i);
+                                Row categoryRow = sheet1.createRow(m);
+                                c = categoryRow.createCell(0);
+                                c.setCellValue(categorySum.getCategoryName());
+
+                                c = categoryRow.createCell(1);
+                                c.setCellValue(categorySum.getTotalNoofUnit());
+
+                                c = categoryRow.createCell(2);
+                                c.setCellValue("");
+
+                                c = categoryRow.createCell(3);
+                                c.setCellValue(categorySum.getTotalValue());
+
+
+
+                                Category category=mDatabaseHelper.getCategory(categorySum.getCategoryName());
+                                ArrayList<Subcategory> subcategories=mDatabaseHelper.getSubCategories(String.valueOf(category.getId()));
+                                for(int k=0;k<subcategories.size();k++){
+                                    m++;
+                                    Subcategory subcategory=subcategories.get(k);
+                                    ArrayList<CategorySum> SubcategorySumList=mDatabaseHelper.getSubCategory(PreferenceUtil.getPreference(getActivity(), "current_company_id", ""), categoryList.get(j).getCategoryName(), subcategory.getSubcategoryName());
+                                    CategorySum subcategorySum=SubcategorySumList.get(i);
+
+
+                                    Row subcategoryRow = sheet1.createRow(m);
+                                    c = subcategoryRow.createCell(0);
+                                    c.setCellValue(subcategorySum.getCategoryName());
+
+                                    c = subcategoryRow.createCell(1);
+                                    c.setCellValue(subcategorySum.getTotalNoofUnit());
+
+                                    c = subcategoryRow.createCell(2);
+                                    c.setCellValue("");
+
+                                    c = subcategoryRow.createCell(3);
+                                    c.setCellValue(subcategorySum.getTotalValue());
+                                    ArrayList<Inventory> inventoryList=mDatabaseHelper.getInventories(subcategory.getSubcategoryName(),mCurrentDateString);
+                                    if(inventoryList.size()==0){
+
+                                    }
+                                    for(int l=0;l<inventoryList.size(); l++) {
+                                        m++;
+                                        Inventory inventory=inventoryList.get(l);
+                                        Row inventoryRow = sheet1.createRow(m);
+                                        c = inventoryRow.createCell(0);
+                                        c.setCellValue(inventory.getItemName());
+
+                                        c = inventoryRow.createCell(1);
+                                        c.setCellValue(String.valueOf(inventory.getQuantity())+" "+inventory.getUnitofMeasure());
+
+                                        c = inventoryRow.createCell(2);
+                                        c.setCellValue(String.valueOf(inventory.getCost()));
+
+                                        c = inventoryRow.createCell(3);
+                                        c.setCellValue(String.valueOf(inventory.getValue()));
+
+                                    }
+
+
+                                }
+
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            sheet1.setColumnWidth(0, (15 * 500));
+            sheet1.setColumnWidth(1, (15 * 500));
+            sheet1.setColumnWidth(2, (15 * 500));
+            // Create a path where we will place our List of objects on external storage
+            String fileName=android.os.Environment.getExternalStorageDirectory() + java.io.File.separator + "BudgetTracker" + java.io.File.separator + companyName+ day + "" + "-" + (month + 1) + "-" + year+".xls";
+            String extr = Environment.getExternalStorageDirectory().toString();
+            File mFolder = new File(extr + "/BudgetTracker");
+            if (!mFolder.exists()) {
+                mFolder.mkdir();
+            }
+
+            String s =companyName+ day + "" + "-" + (month + 1) + "-" + year+".xls";
+
+            File f = new File(mFolder.getAbsolutePath(), s);
+            f.createNewFile();
+            FileOutputStream os = null;
+
+            try {
+                os =  new FileOutputStream(android.os.Environment.getExternalStorageDirectory() + java.io.File.separator + "BudgetTracker" + java.io.File.separator + companyName+ day + "" + "-" + (month + 1) + "-" + year+".xls");
+                wb.write(os);
+                Log.w("FileUtils", "Writing file" + os);
+            } catch (IOException e) {
+                Log.w("FileUtils", "Error writing " , e);
+            } catch (Exception e) {
+                Log.w("FileUtils", "Failed to save file", e);
+            } finally {
+                try {
+                    if (null != os)
+                        os.close();
+
+                } catch (Exception ex) {
+                }
+            }
+
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
 
 
     }
