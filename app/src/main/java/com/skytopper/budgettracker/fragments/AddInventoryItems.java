@@ -349,6 +349,7 @@ public class AddInventoryItems extends Fragment  implements View.OnClickListener
 
 
         String itemname=mEdt_ItemName.getText().toString();
+        Toast.makeText(getActivity(),mEdt_ItemName.getText().toString(),Toast.LENGTH_LONG).show();
         String itemDescription=mEdt_ItemDescription.getText().toString();
         if(TextUtils.isEmpty(itemname)){
             Toast.makeText(getActivity(),"Item name Cant be empty",Toast.LENGTH_LONG).show();
